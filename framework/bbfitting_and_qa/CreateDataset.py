@@ -161,7 +161,9 @@ if "fHadronicRate" in CONFIG['createTrainingDatasetOptions']['labels_x']:
 if "fPhi" in CONFIG['createTrainingDatasetOptions']['labels_x']:
     LOG.info("Using phi option in CreateDataset and calculate the delta phi angle (within a given ALICE sector)")
     fPhi_index = np.where(labels == 'fPhi')[0][0]  # Locate the index of fPhi in labels
+    fSigned1Pt_index = np.where(labels == 'fSigned1Pt')[0][0]  # Locate the index of fSigned1Pt in labels
     for i in range(fit_data.shape[0]):
+        fit_data[i, fPhi_index] = fit_data[i, fPhi_index] + 1.026 * 0.00299792 * 0.5 * 85. * fit_data[i, fSigned1Pt_index]
         fit_data[i, fPhi_index] = calculate_delta_phi(fit_data[i, fPhi_index])
 
 # if len(fit_data) >= samplesize:
@@ -171,7 +173,7 @@ if "fPhi" in CONFIG['createTrainingDatasetOptions']['labels_x']:
 #     fit_data = fit_data[mask_downsample]
 
 fig = plt.figure(figsize=(16,9))
-x_space = np.logspace(-1., 1., 20*8)
+x_space = np.logspace(-2., 1., 20*8)
 plt.hist2d(fit_data[:,labels=="fTPCInnerParam"].flatten(), fit_data[:,labels=="fTPCSignal"].flatten(), bins=(x_space, np.arange(1,200,0.1)), range=[[-1.,2.],[1.,200.]], cmap=cm.jet, norm=mcolors.LogNorm())
 plt.xscale("log")
 plt.xlabel("p [GeV/c]")

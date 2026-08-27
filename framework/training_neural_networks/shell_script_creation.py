@@ -103,6 +103,12 @@ if scheduler.lower() == "slurm":
 
 export OMP_NUM_THREADS=${{SLURM_CPUS_PER_TASK:-1}}
 
+if [ ! -d "/.singularity.d" ]; then
+    echo "You're outside container 1"
+else
+    echo "You're inside container 1"
+fi
+
 time srun {exec_cmd} "{job_script}" --config "$1" --train-mode "$2"
 """
             else:
@@ -111,6 +117,12 @@ time srun {exec_cmd} "{job_script}" --config "$1" --train-mode "$2"
 #SBATCH --ntasks-per-node={job_dict['ngpus']}
 
 export OMP_NUM_THREADS=${{SLURM_CPUS_PER_TASK:-1}}
+
+if [ ! -d "/.singularity.d" ]; then
+    echo "You're outside container 2"
+else
+    echo "You're inside container 2"
+fi
 
 time srun {exec_cmd} "{job_script}" --config "$1" --train-mode "$2"
 """
@@ -122,7 +134,7 @@ time srun {exec_cmd} "{job_script}" --config "$1" --train-mode "$2"
 #SBATCH --chdir=%(chdir)s
 #SBATCH --time=%(time)s
 #SBATCH --mem=%(mem)s
-#SBATCH --partition=gpu
+#SBATCH --partition=nvidia_gpu
 #SBATCH --mail-type=%(mail-type)s
 #SBATCH --mail-user=%(mail-user)s
 #SBATCH --constraint=mi100
@@ -137,6 +149,12 @@ time srun {exec_cmd} "{job_script}" --config "$1" --train-mode "$2"
 
 export OMP_NUM_THREADS=${{SLURM_CPUS_PER_TASK:-1}}
 
+if [ ! -d "/.singularity.d" ]; then
+    echo "You're outside container 3"
+else
+    echo "You're inside container 3"
+fi
+
 time srun {exec_cmd} "{job_script}" --config "$1" --train-mode "$2"
 """
             else:
@@ -145,6 +163,12 @@ time srun {exec_cmd} "{job_script}" --config "$1" --train-mode "$2"
 #SBATCH --ntasks-per-node={job_dict['ngpus']}
 
 export OMP_NUM_THREADS=${{SLURM_CPUS_PER_TASK:-1}}
+
+if [ ! -d "/.singularity.d" ]; then
+    echo "You're outside container 4"
+else
+    echo "You're inside container 4"
+fi
 
 time srun {exec_cmd} "{job_script}" --config "$1" --train-mode "$2"
 """
@@ -156,7 +180,7 @@ time srun {exec_cmd} "{job_script}" --config "$1" --train-mode "$2"
 #SBATCH --chdir=%(chdir)s
 #SBATCH --time=%(time)s
 #SBATCH --mem=%(mem)s
-#SBATCH --partition=gpu
+#SBATCH --partition=nvidia_gpu
 #SBATCH --mail-type=%(mail-type)s
 #SBATCH --mail-user=%(mail-user)s
 """ % job_dict
@@ -170,6 +194,12 @@ time srun {exec_cmd} "{job_script}" --config "$1" --train-mode "$2"
 
 export OMP_NUM_THREADS=${{SLURM_CPUS_PER_TASK:-1}}
 
+if [ ! -d "/.singularity.d" ]; then
+    echo "You're outside container 5"
+else
+    echo "You're inside container 5"
+fi
+
 time srun {exec_cmd} "{job_script}" --config "$1" --train-mode "$2"
 """
             else:
@@ -178,6 +208,12 @@ time srun {exec_cmd} "{job_script}" --config "$1" --train-mode "$2"
 #SBATCH --ntasks-per-node={job_dict['ngpus']}
 
 export OMP_NUM_THREADS=${{SLURM_CPUS_PER_TASK:-1}}
+
+if [ ! -d "/.singularity.d" ]; then
+    echo "You're outside container 6"
+else
+    echo "You're inside container 6"
+fi
 
 time srun {exec_cmd} "{job_script}" --config "$1" --train-mode "$2"
 """

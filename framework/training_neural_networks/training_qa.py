@@ -380,6 +380,7 @@ else:
     LOG.debug("No folder for QA plots for Phi (disabled)")
 
 for i, mass in enumerate(np.sort(np.unique(fit_data[:,labels=='fMass'].flatten()))):
+    print(f'i = {i}')
 
     def transform_ncl(x):
         return 152./(x**2)
@@ -388,10 +389,10 @@ for i, mass in enumerate(np.sort(np.unique(fit_data[:,labels=='fMass'].flatten()
     isLowBField = CONFIG['trainNeuralNetOptions'].get('isLowBField', 'False').lower() == "true"
 
     default_ranges = {
-        "fTPCInnerParam": [-1., 1.],
+        "fTPCInnerParam": [-1., 1.5],
         "fTgl": [-1., 1.],
         "fNormNClustersTPC": [0.5, 152.5],
-        "fNormMultTPC": [-2., 0.],
+        "fNormMultTPC": [0., 3.],
         "fFt0Occ": [-0.1, 1.],
         "fHadronicRate": [-1., 0.3]
     }
@@ -405,7 +406,7 @@ for i, mass in enumerate(np.sort(np.unique(fit_data[:,labels=='fMass'].flatten()
     }
 
     if isSmallSystem:
-        default_ranges['fNormMultTPC'] = [-2., 0.]
+        default_ranges['fNormMultTPC'] = [0., 3.]
         default_ranges['fFt0Occ'] = [-0.1, 1.]
     if isLowBField:
         default_ranges['fTPCInnerParam'] = [np.log10(0.003), 1.]
@@ -452,6 +453,7 @@ for i, mass in enumerate(np.sort(np.unique(fit_data[:,labels=='fMass'].flatten()
         QA2D_NSigma_vs_Var(i, mass, plot_against = 'fPhi', log_x = False, range_hists = [[-0.03,0.38]]*6, useNN=False, xlabel = r'phi - k*pi/9')
         QA2D_NSigma_vs_Var(i, mass, plot_against = 'fPhi', log_x = False, range_hists = [[-0.03,0.38]]*6, plot_mode="rel_sigma",xlabel = r'phi - k*pi/9')
         QA2D_NSigma_vs_Var(i, mass, plot_against = 'fPhi', log_x = False, range_hists = [[-0.03,0.38]]*6, plot_mode="raw_relsigma_fitted",xlabel = r'phi - k*pi/9')
+
 
 separation_power(useNN=1, useMassAssumption=0)
 separation_power(useNN=0, useMassAssumption=0)
