@@ -144,7 +144,7 @@ def check_particle_content(lbls, data, messages=None):
 def calculate_delta_phi(phi):
     sector_width = np.pi / 9.0
     phi = phi % (2 * np.pi)
-    idx = int(np.floor(phi / sector_width))
+    idx = np.floor(phi / sector_width)
     lower_boundary = idx * sector_width
     return phi - lower_boundary
 
@@ -166,10 +166,9 @@ if "fPhi" in CONFIG['createTrainingDatasetOptions']['labels_x']:
     LOG.info("Using phi option in CreateDataset and calculate the delta phi angle (within a given ALICE sector)")
     fPhi_index = np.where(labels == 'fPhi')[0][0]  # Locate the index of fPhi in labels
     fSigned1Pt_index = np.where(labels == 'fSigned1Pt')[0][0]  # Locate the index of fSigned1Pt in labels
-    for i in range(fit_data.shape[0]):
-        if use_phi_entrance:
-            fit_data[i, fPhi_index] = fit_data[i, fPhi_index] + phi_entrance_coeff_1 * light_speed_dm_ps * 0.5 * phi_entrance_coeff_2 * fit_data[i, fSigned1Pt_index]
-        fit_data[i, fPhi_index] = calculate_delta_phi(fit_data[i, fPhi_index])
+    if use_phi_entrance:
+        fit_data[:, fPhi_index] += (phi_entrance_coeff_1 * light_speed_dm_ps * 0.5 * phi_entrance_coeff_2 * fit_data[:, fSigned1Pt_index])
+    fit_data[:, fPhi_index] = calculate_delta_phi(fit_data[:, fPhi_index])
 
 # if len(fit_data) >= samplesize:
 #     ### Downsampling to defined sample size
