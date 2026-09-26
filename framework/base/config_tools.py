@@ -30,7 +30,7 @@ def evaluate_nn_version(config):
             version = 3
             if "fPhi" in config["createTrainingDatasetOptions"]["labels_x"]:
                 version = 4
-                if config['createTrainingDatasetOptions']['usePhiEntrance']:
+                if config['createTrainingDatasetOptions'].get('phiEntrance', {}).get('activate', False):
                     version = 5
     return version
 

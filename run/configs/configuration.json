@@ -32,9 +32,11 @@
         ],
         "samplesize": "10000000",
         "sigmarange": "3",
-        "usePhiEntrance": false,
-        "phiEntranceCoeff1": "1.026",
-        "phiEntranceCoeff2": "85"
+        "phiEntrance": {
+            "activate": false,
+            "coeff1": 1.026,
+            "coeff2": 85
+        }
     },
     "dataset": {
         "dEdxSelection": "TPCSignal",
